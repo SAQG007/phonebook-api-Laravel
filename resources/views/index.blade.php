@@ -13,14 +13,15 @@
             <div class="row">
                 <div class="col table-responsive">
                     <table class="table table-hover table-striped text-center"
-                           style="position: relative; table-layout: fixed">
+                           style="position: relative; table-layout: fixed" id="contactsTable">
                         <thead>
                             <th>Name</th>
                             <th>Phone</th>
                             <th>Email</th>
                             <th>Action</th>
                         </thead>
-                        <tbody id="tbody"></tbody>
+                        <tbody id="tBody">
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -37,11 +38,11 @@
         <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.1.js"></script>
 
         <script type="text/javascript">
-{{--            var url = "{{ config('app.url') }}/api/";--}}
+            {{--var url = "{{ config('app.url') }}/api/";--}}
 
             var tempContact = null;
 
-            function populateContact()
+            function loadContacts()
             {
                 let contacts = null;
                 $.ajax({
@@ -63,9 +64,10 @@
 
             function displayContacts(contacts)
             {
+                $("#tBody").empty();
                 for(let i = 0; i < contacts.length; i++)
                 {
-                    $("#tbody").append('<tr> <td>'+ contacts[i].name + '</td> <td>' +
+                    $("#tBody").append('<tr> <td>'+ contacts[i].name + '</td> <td>' +
                         contacts[i].phone + '</td> <td>' + contacts[i].email + '</td> <td>' +
                         '<button class="btn btn-primary" type="button" onclick="findContact(' + contacts[i].id + ')">View</button>' +
                         '<button class="btn btn-danger" type="button" onclick="confirmDelete(' + contacts[i].id + ')">Delete</button>' + '</tr>');
@@ -134,8 +136,9 @@
                         console.log("save error");
                     }
                 });
+
                 hideModal();
-                location.reload(true);
+                loadContacts();
             }
 
             function confirmDelete(id)
@@ -178,8 +181,8 @@
                     }
                 });
 
-                location.reload(true);
-                // populateContact();
+                $("#confirmationModal").modal('hide');
+                loadContacts();
             }
 
             function addContact()
@@ -207,7 +210,7 @@
             // }
 
             $(document).ready(function () {
-                populateContact();
+                loadContacts();
             });
         </script>
 
