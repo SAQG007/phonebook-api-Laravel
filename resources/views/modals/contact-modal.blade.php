@@ -9,6 +9,9 @@
                 <table class="table table-hover table-striped text-center">
                     <tbody>
                     <tr>
+                        <input type="hidden" id="showContactID">
+                    </tr>
+                    <tr>
                         <td><label for="inputName">Name</label></td>
                         <td><input class="form-control" type="text" name="name" id="inputName" placeholder="Enter name here"></td>
                     </tr>
@@ -26,10 +29,9 @@
                 </table>
             </div>
             <div class="modal-footer">
-                {{--                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>--}}
+                {{--<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>--}}
                 <button onclick="saveContact()" id="saveBtn" type="button" class="btn btn-primary">Save Changes</button>
             </div>
         </div>
     </div>
 </div>
-

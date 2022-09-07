@@ -38,6 +38,9 @@
 
         <script type="text/javascript">
 {{--            var url = "{{ config('app.url') }}/api/";--}}
+
+            var tempContact = null;
+
             function populateContact()
             {
                 let contacts = null;
@@ -90,6 +93,7 @@
 
             function showContact(contact)
             {
+                $("#showContactID").val(contact.id);
                 $("#inputName").val(contact.name);
                 $("#inputEmail").val(contact.email);
                 $("#inputPhone").val(contact.phone);
@@ -98,10 +102,25 @@
 
             function saveContact()
             {
+                let id = $("#showContactID").val();
+                let method = "post";
+                let url = "http://127.0.0.1:8000/api/contact";
+
+                if(id !== "")
+                {
+                    url = url + "/" + id;
+                    method = "put";
+                }
+
                 $.ajax({
-                    url: "http://127.0.0.1:8000/api/contact",
-                    method: "post",
-                    dataType: "json",
+                    url: url,
+                    method: method,
+                    data: {
+                      id: id,
+                      name: $("#inputName").val(),
+                      email: $("#inputEmail").val(),
+                      phone: $("#inputPhone").val(),
+                    },
 
                     success: function(response)
                     {
@@ -116,6 +135,7 @@
                     }
                 });
                 hideModal();
+                location.reload(true);
             }
 
             function confirmDelete(id)
@@ -128,7 +148,6 @@
                     {
                         console.log(response);
                         let contact = response.data;
-                        $("#contactID").val(contact.id);
                         $("#confirmModalBody").html("Do you really want to delete the record of " + contact.name + "!" +
                         "<input type='hidden' value='" + contact.id + "' id='contactID' >");
                         $("#confirmationModal").modal('show');
@@ -143,7 +162,7 @@
 
             function deleteContact()
             {
-                let id = $("#contactID");
+                let id = $("#contactID").val();
                 $.ajax({
                     url: "http://127.0.0.1:8000/api/contact/" + id,
                     method: "delete",
@@ -165,6 +184,7 @@
 
             function addContact()
             {
+                $("#showContactID").val(null);
                 $("#inputName").val(null);
                 $("#inputPhone").val(null);
                 $("#inputEmail").val(null);

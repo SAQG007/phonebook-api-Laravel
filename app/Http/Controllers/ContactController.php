@@ -51,11 +51,12 @@ class ContactController extends Controller
      * @param  \App\Models\Contact  $contact
      * @return \Illuminate\Http\Response
      */
-    public function update(ContactRequest $request, Contact $contact)
+    public function update(ContactRequest $request, $id)
     {
+        $contact = Contact::find($id);
         $contact->update($request->all());
-        $contact->save();
-        return response(['flag' => 'updated']);
+//        return response(['flag' => 'updated']);
+        return new ContactResource($contact);
     }
 
     /**
