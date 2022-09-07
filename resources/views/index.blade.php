@@ -29,6 +29,12 @@
                 <div class="col">
                     <button type="button" class="btn btn-success btn-block" onclick="addContact()">Add New Contact</button>
                 </div>
+                <div class="col">
+                    <form action="{{ route('logout') }}" method="post">
+                        @csrf
+                        <button type="submit" class="btn btn-primary">Logout</button>
+                    </form>
+                </div>
             </div>
         </div>
 
@@ -39,8 +45,6 @@
 
         <script type="text/javascript">
             {{--var url = "{{ config('app.url') }}/api/";--}}
-
-            var tempContact = null;
 
             function loadContacts()
             {
