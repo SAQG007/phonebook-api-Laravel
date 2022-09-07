@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ContactRequest;
+use App\Http\Resources\ContactResource;
 use App\Models\Contact;
 use Illuminate\Http\Request;
 
@@ -14,7 +16,8 @@ class ContactController extends Controller
      */
     public function index()
     {
-        //
+        $contacts = Contact::all();
+        return new ContactResource($contacts);
     }
 
     /**
@@ -23,9 +26,10 @@ class ContactController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ContactRequest $request)
     {
-        //
+        Contact::create($request->all());
+        return response(['flag' => 'saved']);
     }
 
     /**
@@ -34,9 +38,10 @@ class ContactController extends Controller
      * @param  \App\Models\Contact  $contact
      * @return \Illuminate\Http\Response
      */
-    public function show(Contact $contact)
+    public function show($id)
     {
-        //
+        $contact = Contact::find($id);
+        return new ContactResource($contact);
     }
 
     /**
@@ -46,9 +51,11 @@ class ContactController extends Controller
      * @param  \App\Models\Contact  $contact
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Contact $contact)
+    public function update(ContactRequest $request, Contact $contact)
     {
-        //
+        $contact->update($request->all());
+        $contact->save();
+        return response(['flag' => 'updated']);
     }
 
     /**
@@ -57,8 +64,11 @@ class ContactController extends Controller
      * @param  \App\Models\Contact  $contact
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Contact $contact)
+    public function destroy($id)
     {
-        //
+        Contact::find($id)->delete();
+//        $contact->delete();
+
+        return response(['flag' => 'deleted']);
     }
 }
