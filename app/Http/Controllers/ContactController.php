@@ -1,5 +1,7 @@
 <?php
 
+// Hello
+
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ContactRequest;
