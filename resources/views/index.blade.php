@@ -13,7 +13,7 @@
             <div class="row">
                 <div class="col table-responsive">
                     <table class="table table-hover table-striped text-center"
-                           style="position: relative; table-layout: fixed" id="contactsTable">
+                           style="position: relative; table-layout: fixed" id="contactsTable" v-for="i in 100">
                         <thead>
                             <th>Name</th>
                             <th>Phone</th>
