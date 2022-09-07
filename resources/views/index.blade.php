@@ -67,10 +67,28 @@
                 $("#tBody").empty();
                 for(let i = 0; i < contacts.length; i++)
                 {
-                    $("#tBody").append('<tr> <td>'+ contacts[i].name + '</td> <td>' +
-                        contacts[i].phone + '</td> <td>' + contacts[i].email + '</td> <td>' +
-                        '<button class="btn btn-primary" type="button" onclick="findContact(' + contacts[i].id + ')">View</button>' +
-                        '<button class="btn btn-danger" type="button" onclick="confirmDelete(' + contacts[i].id + ')">Delete</button>' + '</tr>');
+                    // $("#tBody").append('<tr> <td>'+ contacts[i].name + '</td> <td>' +
+                    //     contacts[i].phone + '</td> <td>' + contacts[i].email + '</td> <td>' +
+                    //     '<button class="btn btn-primary" type="button" onclick="findContact(' + contacts[i].id + ')">View</button>' +
+                    //     '<button class="btn btn-danger" type="button" onclick="confirmDelete(' + contacts[i].id + ')">Delete</button>' + '</tr>');
+
+                    let row = document.createElement("tr");
+                    let name = document.createElement("td");
+                    let phone = document.createElement("td");
+                    let email = document.createElement("td");
+                    let action = document.createElement("td");
+
+                    let btn1 = document.createElement("td");
+                    let btn2 = document.createElement("td");
+
+                    name.innerHTML = contacts[i].name;
+                    phone.innerHTML = contacts[i].phone;
+                    email.innerHTML = contacts[i].email;
+                    action.innerHTML = '<button class="btn btn-primary" type="button" onclick="findContact(' + contacts[i].id + ')">View</button>' +
+                        '<button class="btn btn-danger" type="button" onclick="confirmDelete(' + contacts[i].id + ')">Delete</button>';
+
+                    row.append(name, phone, email, action);
+                    $("#tBody").append(row);
                 }
             }
 
