@@ -28,6 +28,7 @@
                                     <td>@{{ contact.phone }}</td>
                                     <td>@{{ contact.email }}</td>
                                     <td>
+                                        <button class="btn btn-primary" v-on:click="findContact(contact.id)">View</button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -57,12 +58,13 @@
             var url = "{{ config('app.url') }}:8000/api/";
             var contacts = null;
 
-            var myContact = new Vue({
+            var myContacts = new Vue({
                 el: '#app',
                 data: {
                     list: contacts
-                }
-            })
+                },
+                methods: {findContact}
+            });
 
             // var contacts = null;
 
@@ -76,7 +78,7 @@
                     {
                         console.log(response);
                         contacts = response.data;
-                        myContact.list = contacts
+                        myContacts.list = contacts;
                         // displayContacts(contacts);
                     },
 
