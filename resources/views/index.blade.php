@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css"
               integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.7.10/dist/vue.js"></script>
         <title>Phonebook</title>
     </head>
 
@@ -16,14 +17,18 @@
                         <table class="table table-hover table-striped text-center"
                                style="position: relative; table-layout: fixed" id="contactsTable">
                             <thead>
-                            <th>Name</th>
-                            <th>Phone</th>
-                            <th>Email</th>
-                            <th>Action</th>
+                                <th>Name</th>
+                                <th>Phone</th>
+                                <th>Email</th>
+                                <th>Action</th>
                             </thead>
                             <tbody>
-                                <tr v-for="i in 10">
-                                    <td></td>
+                                <tr v-for="contact in list">
+                                    <td>@{{ contact.name }}</td>
+                                    <td>@{{ contact.phone }}</td>
+                                    <td>@{{ contact.email }}</td>
+                                    <td>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -50,13 +55,19 @@
 
         <script type="text/javascript">
             var url = "{{ config('app.url') }}:8000/api/";
+            var contacts = null;
+
+            var myContact = new Vue({
+                el: '#app',
+                data: {
+                    list: contacts
+                }
+            })
 
             // var contacts = null;
 
             function loadContacts()
             {
-
-                let contacts = null;
                 $.ajax({
                     url: url + "contacts",
                     method: "get",
@@ -65,13 +76,13 @@
                     {
                         console.log(response);
                         contacts = response.data;
-                        displayContacts(contacts);
+                        myContact.list = contacts
+                        // displayContacts(contacts);
                     },
 
                     error: function (error)
                     {
                         console.log(error);
-                        console.log("bye");
                     },
                 });
             }
@@ -245,6 +256,6 @@
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
 
-        <script src="{{ asset('js/app.js') }}"></script>
+{{--        <script src="{{ asset('js/app.js') }}"></script>--}}
     </body>
 </html>
