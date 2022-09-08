@@ -9,31 +9,36 @@
     </head>
 
     <body>
-        <div class="container-fluid" style="margin-top: 10px">
-            <div class="row">
-                <div class="col table-responsive">
-                    <table class="table table-hover table-striped text-center"
-                           style="position: relative; table-layout: fixed" id="contactsTable" v-for="i in 100">
-                        <thead>
+        <div id="app">
+            <div class="container-fluid" style="margin-top: 10px">
+                <div class="row">
+                    <div class="col table-responsive">
+                        <table class="table table-hover table-striped text-center"
+                               style="position: relative; table-layout: fixed" id="contactsTable">
+                            <thead>
                             <th>Name</th>
                             <th>Phone</th>
                             <th>Email</th>
                             <th>Action</th>
-                        </thead>
-                        <tbody id="tBody">
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                <tr v-for="i in 10">
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
-            <div class="row text-center mb-2">
-                <div class="col">
-                    <button type="button" class="btn btn-success btn-block" onclick="addContact()">Add New Contact</button>
-                </div>
-                <div class="col">
-                    <form action="{{ route('logout') }}" method="post">
-                        @csrf
-                        <button type="submit" class="btn btn-primary">Logout</button>
-                    </form>
+                <div class="row text-center mb-2">
+                    <div class="col">
+                        <button type="button" class="btn btn-success btn-block" onclick="addContact()">Add New Contact</button>
+                    </div>
+                    <div class="col">
+                        <form action="{{ route('logout') }}" method="post">
+                            @csrf
+                            <button type="submit" class="btn btn-primary">Logout</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -44,14 +49,18 @@
         <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.1.js"></script>
 
         <script type="text/javascript">
-            {{--var url = "{{ config('app.url') }}/api/";--}}
+            var url = "{{ config('app.url') }}:8000/api/";
+
+            // var contacts = null;
 
             function loadContacts()
             {
+
                 let contacts = null;
                 $.ajax({
-                    url: "http://127.0.0.1:8000/api/contacts",
+                    url: url + "contacts",
                     method: "get",
+
                     success: function (response)
                     {
                         console.log(response);
@@ -61,7 +70,8 @@
 
                     error: function (error)
                     {
-                        console.log(response);
+                        console.log(error);
+                        console.log("bye");
                     },
                 });
             }
@@ -82,9 +92,6 @@
                     let email = document.createElement("td");
                     let action = document.createElement("td");
 
-                    let btn1 = document.createElement("td");
-                    let btn2 = document.createElement("td");
-
                     name.innerHTML = contacts[i].name;
                     phone.innerHTML = contacts[i].phone;
                     email.innerHTML = contacts[i].email;
@@ -99,7 +106,7 @@
             function findContact(id)
             {
                 $.ajax({
-                    url: "http://127.0.0.1:8000/api/contact/" + id,
+                    url: url + "contact/" + id,
                     method: "get",
 
                     success: function(response)
@@ -128,16 +135,16 @@
             {
                 let id = $("#showContactID").val();
                 let method = "post";
-                let url = "http://127.0.0.1:8000/api/contact";
+                let targetUrl = url + "contact";
 
                 if(id !== "")
                 {
-                    url = url + "/" + id;
+                    targetUrl = targetUrl + "/" + id;
                     method = "put";
                 }
 
                 $.ajax({
-                    url: url,
+                    url: targetUrl,
                     method: method,
                     data: {
                       id: id,
@@ -166,7 +173,7 @@
             function confirmDelete(id)
             {
                 $.ajax({
-                    url: "http://127.0.0.1:8000/api/contact/" + id,
+                    url: url + "contact/" + id,
                     method: "get",
 
                     success: function(response)
@@ -189,7 +196,7 @@
             {
                 let id = $("#contactID").val();
                 $.ajax({
-                    url: "http://127.0.0.1:8000/api/contact/" + id,
+                    url: url + "contact/" + id,
                     method: "delete",
 
                     success: function ()
@@ -237,5 +244,7 @@
         </script>
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+
+        <script src="{{ asset('js/app.js') }}"></script>
     </body>
 </html>
